@@ -1,0 +1,234 @@
+╔════════════════════════════════════════════════════════════════════╗
+║                    PLANOPTICON - QUICK REFERENCE                   ║
+╚════════════════════════════════════════════════════════════════════╝
+
+📁 PROJECT STRUCTURE
+────────────────────────────────────────────────────────────────────
+organized-project/
+├── backend/                  # Flask API + ML Models
+│   ├── app.py               # Main API (347 lines)
+│   ├── exoplanet_model.h5   # CNN model (~190MB)
+│   ├── exoplanet_model.pkl  # RandomForest model
+│   ├── scaler.pkl           # Feature scaler
+│   ├── requirements.txt     # Python dependencies
+│   ├── Procfile             # Deployment config
+│   └── README.md            # API documentation
+│
+├── frontend/                 # React + TypeScript + Vite
+│   ├── src/
+│   │   ├── components/      # 5 main components
+│   │   │   ├── DataExplorer.tsx        (530 lines)
+│   │   │   ├── LightcurveViewer.tsx    (177 lines)
+│   │   │   ├── PredictForm.tsx
+│   │   │   ├── DashboardFooter.tsx
+│   │   │   └── Footer.tsx
+│   │   ├── pages/           # 3 pages
+│   │   │   ├── Index.tsx
+│   │   │   ├── Dashboard.tsx
+│   │   │   └── NotFound.tsx
+│   │   └── ui/              # 20+ shadcn components
+│   ├── public/data/         # CSV datasets
+│   │   ├── kepler.csv
+│   │   ├── k2.csv
+│   │   └── tess.csv
+│   ├── package.json
+│   ├── vite.config.ts
+│   └── README.md
+│
+└── Documentation/
+    ├── START_HERE.md        # 👈 Read this first!
+    ├── MIGRATION_GUIDE.md   # Step-by-step migration
+    ├── SETUP.md             # File inventory
+    ├── CHECKLIST.md         # Testing checklist
+    └── setup.ps1            # Automated setup script
+
+════════════════════════════════════════════════════════════════════
+
+🚀 QUICK START COMMANDS
+────────────────────────────────────────────────────────────────────
+
+1. AUTOMATED SETUP (Recommended):
+   cd c:\Users\prath\OneDrive\Documents\NasaSpace\organized-project
+   .\setup.ps1
+
+2. MANUAL BACKEND SETUP:
+   cd organized-project\backend
+   python -m venv venv
+   .\venv\Scripts\activate
+   pip install -r requirements.txt
+   python app.py
+
+3. MANUAL FRONTEND SETUP:
+   cd organized-project\frontend
+   npm install
+   copy .env.example .env.local
+   npm run dev
+
+4. OPEN IN BROWSER:
+   http://localhost:5173
+
+════════════════════════════════════════════════════════════════════
+
+📊 FEATURES
+────────────────────────────────────────────────────────────────────
+
+1. DATA EXPLORER
+   • Browse Kepler, K2, TESS catalogs
+   • Filter by radius, period, temperature
+   • Pagination (10/25/50/100 per page)
+   • Jump to specific page
+   • Files: DataExplorer.tsx, 3 CSV files
+
+2. LIGHTCURVE CLASSIFIER
+   • Upload CSV with 3,197 flux points
+   • CNN model classification
+   • Batch processing
+   • Files: LightcurveViewer.tsx, exoplanet_model.h5
+
+3. AI CLASSIFIER
+   • Tabular data classification
+   • Manual entry or CSV upload
+   • RandomForest model (74% accuracy)
+   • Files: PredictForm.tsx, exoplanet_model.pkl
+
+════════════════════════════════════════════════════════════════════
+
+🔧 TECH STACK
+────────────────────────────────────────────────────────────────────
+
+Frontend:
+  • React 18.3.1
+  • TypeScript 5.8.3
+  • Vite 5.4.19
+  • Tailwind CSS
+  • shadcn/ui
+
+Backend:
+  • Flask 3.0.0
+  • TensorFlow 2.13.0
+  • scikit-learn
+  • NumPy, Pandas, SciPy
+
+════════════════════════════════════════════════════════════════════
+
+📡 API ENDPOINTS
+────────────────────────────────────────────────────────────────────
+
+GET  /api/health                      # Server status
+POST /api/predict                     # Single prediction (table)
+POST /api/predict/batch               # Batch prediction (CSV)
+POST /api/predict/lightcurve          # Lightcurve classification
+POST /api/predict/lightcurve/batch    # Batch lightcurve
+
+════════════════════════════════════════════════════════════════════
+
+🌐 DEPLOYMENT
+────────────────────────────────────────────────────────────────────
+
+FRONTEND → Vercel:
+  1. Import GitHub repo (frontend folder)
+  2. Framework: Vite
+  3. Environment: VITE_API_BASE=<backend-url>
+  4. Deploy
+
+BACKEND → Render/Railway:
+  1. Import GitHub repo (backend folder)
+  2. Build: pip install -r requirements.txt
+  3. Start: gunicorn app:app
+  4. Deploy
+
+════════════════════════════════════════════════════════════════════
+
+📝 IMPORTANT FILES
+────────────────────────────────────────────────────────────────────
+
+Backend:
+  • app.py              # Main Flask API
+  • requirements.txt    # Dependencies
+  • Procfile            # Deployment config
+
+Frontend:
+  • package.json        # Dependencies
+  • vite.config.ts      # Build config
+  • .env.local          # Local environment (create this)
+
+Documentation:
+  • START_HERE.md       # Read this first!
+  • MIGRATION_GUIDE.md  # Migration steps
+  • CHECKLIST.md        # Testing checklist
+
+════════════════════════════════════════════════════════════════════
+
+✅ CHECKLIST
+────────────────────────────────────────────────────────────────────
+
+Setup:
+  [ ] Run setup.ps1
+  [ ] Backend starts successfully
+  [ ] Frontend starts successfully
+  [ ] Open http://localhost:5173
+
+Testing:
+  [ ] Data Explorer loads CSV files
+  [ ] Filters work
+  [ ] Pagination works
+  [ ] Lightcurve classifier works
+  [ ] AI Classifier works
+
+Cleanup (after testing):
+  [ ] Delete cosmic-classifier-web folder
+  [ ] Delete EXOPLANETS folder
+  [ ] Delete EXOPLANETS 1 folder
+  [ ] Rename to "planopticon"
+
+Deployment:
+  [ ] Frontend deployed to Vercel
+  [ ] Backend deployed to Render/Railway
+  [ ] CORS configured
+  [ ] All features tested in production
+
+════════════════════════════════════════════════════════════════════
+
+💡 TIPS
+────────────────────────────────────────────────────────────────────
+
+1. Always activate venv before running backend:
+   .\venv\Scripts\activate
+
+2. Update .env.local with backend URL for frontend:
+   VITE_API_BASE=http://localhost:5000
+
+3. If models don't load, check they're in backend folder:
+   ls backend/*.pkl backend/*.h5
+
+4. Use setup.ps1 for automated setup (saves time!)
+
+5. Read documentation files for detailed instructions
+
+════════════════════════════════════════════════════════════════════
+
+📞 DOCUMENTATION
+────────────────────────────────────────────────────────────────────
+
+START_HERE.md         → Quick overview and next steps
+MIGRATION_GUIDE.md    → Detailed migration instructions
+SETUP.md              → File inventory and setup info
+CHECKLIST.md          → Testing and cleanup checklist
+backend/README.md     → Backend API documentation
+frontend/README.md    → Frontend deployment guide
+
+════════════════════════════════════════════════════════════════════
+
+🎉 READY TO DEPLOY!
+────────────────────────────────────────────────────────────────────
+
+Your project is:
+  ✅ Professionally organized
+  ✅ Deployment ready
+  ✅ Well documented
+  ✅ Clean and maintainable
+  ✅ Git-ready
+
+Next: Run .\setup.ps1 and start testing!
+
+════════════════════════════════════════════════════════════════════
