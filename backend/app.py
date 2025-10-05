@@ -40,6 +40,16 @@ def preprocess_input_df(df, feature_cols):
     return df
 
 
+@app.route('/', methods=['GET'])
+def health_check():
+    """Health check endpoint"""
+    return jsonify({
+        'status': 'healthy',
+        'service': 'Exoplanet Detection API',
+        'cnn_model_loaded': cnn_model is not None
+    })
+
+
 @app.route('/api/predict', methods=['POST'])
 def predict():
     """Table-based prediction using planet parameters (backward compatible)"""
