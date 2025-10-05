@@ -4,7 +4,8 @@ import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
-import { Upload, FileText } from 'lucide-react';
+import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert';
+import { Upload, FileText, AlertCircle } from 'lucide-react';
 import { toast } from 'sonner';
 
 const API_BASE_URL = import.meta.env.VITE_API_URL || 'http://localhost:5000';
@@ -45,6 +46,9 @@ const LightcurveViewer = () => {
 
         if (!res.ok) {
           const errorData = await res.json();
+          if (res.status === 503 && errorData.error?.includes('CNN model not available')) {
+            throw new Error('⚠️ Lightcurve classification is currently unavailable. The CNN model requires TensorFlow which is not available on the free tier. Please use the AI Classifier tab for exoplanet predictions.');
+          }
           throw new Error(errorData.error || 'Classification failed');
         }
 
@@ -77,6 +81,9 @@ const LightcurveViewer = () => {
 
         if (!res.ok) {
           const errorData = await res.json();
+          if (res.status === 503 && errorData.error?.includes('CNN model not available')) {
+            throw new Error('⚠️ Lightcurve classification is currently unavailable. The CNN model requires TensorFlow which is not available on the free tier. Please use the AI Classifier tab for exoplanet predictions.');
+          }
           throw new Error(errorData.error || 'Batch classification failed');
         }
 
@@ -94,6 +101,16 @@ const LightcurveViewer = () => {
 
   return (
     <div className="grid gap-6">
+      {/* Warning Banner */}
+      <Alert variant="destructive" className="border-yellow-500/50 bg-yellow-500/10">
+        <AlertCircle className="h-4 w-4" />
+        <AlertTitle>Feature Temporarily Unavailable</AlertTitle>
+        <AlertDescription>
+          Lightcurve classification requires TensorFlow and a CNN model, which are not available on the free deployment tier. 
+          <strong> Please use the "AI Classifier" tab</strong> for exoplanet predictions using tabular data (period, radius, temperature, etc.).
+        </AlertDescription>
+      </Alert>
+
       <Card className="glow-border bg-card/50 backdrop-blur-sm border-border/50">
         <CardHeader>
           <CardTitle className="flex items-center gap-2 glow-text">

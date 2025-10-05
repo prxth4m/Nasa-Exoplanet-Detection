@@ -6,7 +6,6 @@ import { Home } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 import DataExplorer from '@/components/DataExplorer';
 import PredictForm from '@/components/PredictForm';
-import LightcurveViewer from '@/components/LightcurveViewer';
 import DashboardFooter from '@/components/DashboardFooter';
 
 const Dashboard = () => {
@@ -37,7 +36,7 @@ const Dashboard = () => {
         {/* Main Content */}
         <Tabs defaultValue="explorer" className="w-full">
           <TooltipProvider>
-            <TabsList className="grid w-full max-w-2xl grid-cols-3 mb-8">
+            <TabsList className="grid w-full max-w-2xl grid-cols-2 mb-8">
               <Tooltip>
                 <TooltipTrigger asChild>
                   <TabsTrigger value="explorer">Data Explorer</TabsTrigger>
@@ -53,27 +52,6 @@ const Dashboard = () => {
                       <p className="text-xs text-muted-foreground">• Interactive filters and search</p>
                       <p className="text-xs text-muted-foreground">• Kepler, K2, and TESS mission data</p>
                       <p className="text-xs text-muted-foreground">• Browse pre-loaded catalog databases</p>
-                    </div>
-                  </div>
-                </TooltipContent>
-              </Tooltip>
-
-              <Tooltip>
-                <TooltipTrigger asChild>
-                  <TabsTrigger value="lightcurve">Lightcurve</TabsTrigger>
-                </TooltipTrigger>
-                <TooltipContent className="max-w-sm p-4 bg-card/95 backdrop-blur-sm border-primary/20">
-                  <div className="space-y-2">
-                    <p className="font-semibold text-primary">Lightcurve Classifier</p>
-                    <p className="text-sm text-muted-foreground">
-                      Analyze time-series brightness measurements to detect planetary transits using CNN model.
-                    </p>
-                    <div className="pt-2 border-t border-border/50">
-                      <p className="text-xs font-medium mb-1">Input Accepts:</p>
-                      <p className="text-xs text-muted-foreground">• CSV files with flux data (3,197 points)</p>
-                      <p className="text-xs text-muted-foreground">• exoTrain.csv or exoTest.csv format</p>
-                      <p className="text-xs text-muted-foreground">• LABEL column + FLUX.1 to FLUX.3197</p>
-                      <p className="text-xs text-muted-foreground">• Single or multiple lightcurve files</p>
                     </div>
                   </div>
                 </TooltipContent>
@@ -104,10 +82,6 @@ const Dashboard = () => {
 
           <TabsContent value="explorer">
             <DataExplorer />
-          </TabsContent>
-
-          <TabsContent value="lightcurve">
-            <LightcurveViewer />
           </TabsContent>
 
           <TabsContent value="classifier">
